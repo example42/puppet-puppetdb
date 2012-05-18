@@ -29,11 +29,11 @@ class puppetdb::params {
   }
 
   $process = $::operatingsystem ? {
-    default => 'puppetdb',
+    default => 'java',
   }
 
   $process_args = $::operatingsystem ? {
-    default => '',
+    default => 'puppetdb',
   }
 
   $process_user = $::operatingsystem ? {
