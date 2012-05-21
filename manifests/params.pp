@@ -14,6 +14,14 @@
 #
 class puppetdb::params {
 
+  ### Module specific parameters
+  $db_type = 'hsqldb'
+  $db_host = 'localhost'
+  $db_port = '5432'
+  $db_name = 'puppetdb'
+  $db_user = 'puppetdb'
+  $db_password = fqdn_rand(100000000000)
+
   ### Application related parameters
 
   $package = $::operatingsystem ? {
@@ -89,7 +97,7 @@ class puppetdb::params {
   $source = ''
   $source_dir = ''
   $source_dir_purge = 'false'
-  $template = ''
+  $template = 'puppetdb/database.ini.erb'
   $options = ''
   $service_autorestart = true
   $version = 'present'
