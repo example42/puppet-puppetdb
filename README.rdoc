@@ -14,9 +14,29 @@ This module requires functions provided by the Example42 Puppi module (you need 
 
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
 
+== USAGE - Module's specific parameters
+
+* Install PuppetDb with postgresql backend (Note: default credentials with a random password are used, automatic configuration of grants on PostGreSql is not yet supported)
+
+        class { 'puppetdb':
+          db_type => 'postgresql',
+        }
+
+* Install PuppetDb with postgresql backend and custom credentials (automatic configuration of grants on PostGreSql is not yet supported)
+
+        class { 'puppetdb':
+          db_type     => 'postgresql',
+          db_host     => 'data.example42.com',
+          db_port     => '12345',
+          db_name     => 'puppetdb',
+          db_user     => 'puppetdbuser',
+          db_password => 's0rt0fP4ssW0rd!',
+        }
+
+
 == USAGE - Basic management
 
-* Install puppetdb with default settings
+* Install puppetdb with default settings (hsqldb backend)
 
         class { 'puppetdb': }
 

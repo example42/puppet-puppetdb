@@ -126,7 +126,8 @@
 #   and $firewall_tool
 #
 # [*firewall_src*]
-#   Define which source ip/net allow for firewalling puppetdb. Default: 0.0.0.0/0
+#   Define which source ip/net allow for firewalling puppetdb.
+#   Default: 0.0.0.0/0
 #   Can be defined also by the (top scope) variables $puppetdb_firewall_src
 #   and $firewall_src
 #

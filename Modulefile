@@ -1,4 +1,4 @@
-name    'lab42-puppetdb'
+name    'example42-puppetdb'
 version '2.0.7'
 author  'Alessandro Franceschi'
 license 'Apache2'

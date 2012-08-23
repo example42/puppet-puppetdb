@@ -81,10 +81,6 @@ describe 'puppetdb' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:enable]
       content.should == false
     end
-    it 'should keep a firewall rule' do
-      content = catalogue.resource('firewall', 'puppetdb_tcp_42').send(:parameters)[:enable]
-      content.should == true
-    end
   end 
 
   describe 'Test customizations - template' do

@@ -96,7 +96,7 @@ class puppetdb::params {
   $my_class = ''
   $source = ''
   $source_dir = ''
-  $source_dir_purge = 'false'
+  $source_dir_purge = false
   $template = 'puppetdb/database.ini.erb'
   $options = ''
   $service_autorestart = true
