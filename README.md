@@ -1,4 +1,4 @@
-= Puppet module: puppetdb
+# Puppet module: puppetdb
 
 This is a Puppet module for puppetdb based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
@@ -14,7 +14,7 @@ This module requires functions provided by the Example42 Puppi module (you need 
 
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
 
-== USAGE - Module's specific parameters
+## USAGE - Module's specific parameters
 
 * Install PuppetDb with postgresql backend (Note: default credentials with a random password are used, automatic configuration of grants on PostGreSql is not yet supported)
 
@@ -34,7 +34,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Basic management
+## USAGE - Basic management
 
 * Install puppetdb with default settings (hsqldb backend)
 
@@ -65,7 +65,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Overrides and Customizations
+## USAGE - Overrides and Customizations
 * Use custom sources for main config file 
 
         class { 'puppetdb':
@@ -93,7 +93,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Example42 extensions management 
+## USAGE - Example42 extensions management 
 * Activate puppi (recommended, but disabled by default)
 
         class { 'puppetdb':
