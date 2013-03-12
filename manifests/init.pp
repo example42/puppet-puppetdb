@@ -366,7 +366,8 @@ class puppetdb (
   # but if something kills the keystore
   # we have to regenerate it. 
   exec { "/usr/sbin/puppetdb-ssl-setup":
-    creates => '/etc/puppetdb/ssl/keystore.jks';
+    creates => '/etc/puppetdb/ssl/keystore.jks',
+    require => Package['puppetdb'];
   }
 
   service { 'puppetdb':
