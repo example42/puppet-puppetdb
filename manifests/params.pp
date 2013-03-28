@@ -91,7 +91,7 @@ class puppetdb::params {
     default => '/var/log/puppetdb/puppetdb.log',
   }
 
-  $port = '8081'
+  $port = '8080'
   $protocol = 'tcp'
 
   # General Settings
