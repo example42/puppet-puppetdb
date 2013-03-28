@@ -16,13 +16,13 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 ## USAGE - Module's specific parameters
 
-* Install PuppetDb with postgresql backend (Note: default credentials with a random password are used, automatic configuration of grants on PostGreSql is not yet supported)
+* Install PuppetDb with local postgresql backend (Note: default credentials with a random password are used)
 
         class { 'puppetdb':
           db_type => 'postgresql',
         }
 
-* Install PuppetDb with postgresql backend and custom credentials (automatic configuration of grants on PostGreSql is not yet supported)
+* Install PuppetDb with postgresql backend and custom credentials
 
         class { 'puppetdb':
           db_type     => 'postgresql',

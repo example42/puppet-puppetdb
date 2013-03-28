@@ -484,9 +484,7 @@ class puppetdb (
   ### Manage database
   case $puppetdb::db_type {
     postgresql: {
-      # Postgresql autogeneration of credentials has to be fixed
-      # DB credentials must be generated manually
-      # include puppetdb::postgresql
+      include puppetdb::postgresql
     }
     default: { }
   }

@@ -17,7 +17,7 @@ class puppetdb::postgresql {
         role     => $puppetdb::db_user,
         password => $puppetdb::db_password,
         address  => $puppetdb::db_host,
-        tag      => "mysql_grants_${puppetdb::db_host}",
+        tag      => "postgresql_grants_${puppetdb::db_host}",
       }
     }
   }
