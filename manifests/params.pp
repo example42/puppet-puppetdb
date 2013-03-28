@@ -22,6 +22,8 @@ class puppetdb::params {
   $db_user = 'puppetdb'
   $db_password = fqdn_rand(100000000000)
 
+  $install_prerequisites = true
+
   ### Application related parameters
 
   $package = $::operatingsystem ? {
