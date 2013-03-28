@@ -361,6 +361,14 @@ class puppetdb (
     ensure => $puppetdb::manage_package,
     name   => $puppetdb::package,
   }
+  
+  # This runs while installing the package
+  # but if something kills the keystore
+  # we have to regenerate it. 
+  exec { "/usr/sbin/puppetdb-ssl-setup":
+    creates => '/etc/puppetdb/ssl/keystore.jks',
+    require => Package['puppetdb'];
+  }
 
   service { 'puppetdb':
     ensure     => $puppetdb::manage_service_ensure,
