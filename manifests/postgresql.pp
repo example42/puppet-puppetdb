@@ -9,14 +9,14 @@ class puppetdb::postgresql {
       postgresql::dbcreate { $puppetdb::db_name:
         role     => $puppetdb::db_user,
         password => $puppetdb::db_password,
-        address  => $puppetdb::db_host,
+        address  => '127.0.0.1/32',
       }
     }
     default: {
       @@postgresql::dbcreate { $puppetdb::db_name:
         role     => $puppetdb::db_user,
         password => $puppetdb::db_password,
-        address  => $puppetdb::db_host,
+        address  => $::ipaddress,
         tag      => "postgresql_grants_${puppetdb::db_host}",
       }
     }
