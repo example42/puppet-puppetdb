@@ -213,11 +213,17 @@
 #   Note: This doesn't necessarily affect the service configuration file
 #   Can be defined also by the (top scope) variable $puppetdb_port
 #
+# [*https_port*]
+#   The listening port, for HTTPS
+#
 # [*protocol*]
 #   The protocol used by the the service.
 #   This is used by monitor, firewall and puppi (optional) components
 #   Can be defined also by the (top scope) variable $puppetdb_protocol
 #
+# [*serve_http*]
+#   Shall we serve plain http to the world?
+#   This defaults to false, in line with the puppetdb default settings.
 #
 # == Examples
 #
@@ -278,7 +284,9 @@ class puppetdb (
   $log_dir             = params_lookup( 'log_dir' ),
   $log_file            = params_lookup( 'log_file' ),
   $port                = params_lookup( 'port' ),
-  $protocol            = params_lookup( 'protocol' )
+  $https_port          = params_lookup( 'https_port' ),
+  $protocol            = params_lookup( 'protocol' ),
+  $serve_http          = params_lookup( 'serve_http' )
   ) inherits puppetdb::params {
 
   $bool_install_prerequisites = any2bool($install_prerequisites)
@@ -292,6 +300,7 @@ class puppetdb (
   $bool_firewall=any2bool($firewall)
   $bool_debug=any2bool($debug)
   $bool_audit_only=any2bool($audit_only)
+  $bool_serve_http=any2bool($serve_http)
 
   ### Definition of some variables used in the module
   $manage_package = $puppetdb::bool_absent ? {
@@ -372,11 +381,20 @@ class puppetdb (
   # This runs while installing the package
   # but if something kills the keystore
   # we have to regenerate it. 
-  exec { "/usr/sbin/puppetdb-ssl-setup":
+  exec { '/usr/sbin/puppetdb-ssl-setup':
     creates => '/etc/puppetdb/ssl/keystore.jks',
     notify  => Service['puppetdb'],
     require => Package['puppetdb'];
   }
+  if $puppetdb::bool_serve_http {
+    file {'/etc/puppetdb/conf.d/jetty.ini':
+      ensure  => $puppetdb::manage_file,
+      content => template('puppetdb/jetty.ini.erb'),
+      require => Exec['/usr/sbin/puppetdb-ssl-setup'],
+      notify  => Service['puppetdb'],
+    }
+  }
+      
 
   service { 'puppetdb':
     ensure     => $puppetdb::manage_service_ensure,
