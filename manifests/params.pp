@@ -92,7 +92,9 @@ class puppetdb::params {
   }
 
   $port = '8080'
+  $https_port = '8081'
   $protocol = 'tcp'
+  $serve_http = false # HTTPS only by default
 
   # General Settings
   $my_class = ''
