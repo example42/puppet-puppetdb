@@ -1,20 +1,21 @@
 # This file is managed by puppet - manual changes WILL be overwritten on the next puppet run
 
 [jetty]
-<% if scope.lookupvar('puppetdb::bool_serve_http') -%>
+<% if scope.lookupvar('puppetdb::http_host').length >0 -%>
 # Hostname or IP address to listen for clear-text HTTP.  Default is localhost
-host = <%= @fqdn %>
+host = <%= scope.lookupvar('puppetdb::http_host') %>
 
 # Port to listen on for clear-text HTTP.
-port = <%= scope.lookupvar('puppetdb::port') %>
+port = <%= scope.lookupvar('puppetdb::http_port') %>
 
 <% end -%>
+<% if scope.lookupvar('puppetdb::https_host').length >0 -%>
 # The following are SSL specific settings. They can be configured
 # automatically with the tool puppetdb-ssl-setup, which is normally
 # ran during package installation.
 
 # The host or IP address to listen on for HTTPS connections
-ssl-host = <%= @fqdn %>
+ssl-host = <%= scope.lookupvar('puppetdb::https_host') %>
 
 # The port to listen on for HTTPS connections
 ssl-port = <%= scope.lookupvar('puppetdb::https_port') %>
@@ -27,4 +28,5 @@ ssl-cert = /etc/puppetdb/ssl/public.pem
 
 # Certificate authority path
 ssl-ca-cert = /etc/puppetdb/ssl/ca.pem
+<% end -%>
 

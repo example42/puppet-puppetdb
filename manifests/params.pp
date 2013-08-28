@@ -91,35 +91,38 @@ class puppetdb::params {
     default => '/var/log/puppetdb/puppetdb.log',
   }
 
-  $port = '8080'
+  $https_host = $::fqdn
   $https_port = '8081'
-  $protocol = 'tcp'
-  $serve_http = false # HTTPS only by default
+  $http_host  = ''    # HTTPS only by default
+  $http_port  = '8080'
+  $protocol   = 'tcp'
 
   # General Settings
-  $my_class = ''
-  $source = ''
-  $source_dir = ''
-  $source_dir_purge = false
-  $template = 'puppetdb/database.ini.erb'
-  $options = ''
+  $my_class            = ''
+  $source              = ''
+  $source_dir          = ''
+  $source_dir_purge    = false
+  $template            = 'puppetdb/database.ini.erb'
+  $options             = ''
   $service_autorestart = true
-  $version = 'present'
-  $absent = false
-  $disable = false
-  $disableboot = false
+  $version             = 'present'
+  $absent              = false
+  $disable             = false
+  $disableboot         = false
 
   ### General module variables that can have a site or per module default
-  $monitor = false
-  $monitor_tool = ''
+  $monitor        = false
+  $monitor_tool   = ''
   $monitor_target = '127.0.0.1'
-  $firewall = false
-  $firewall_tool = ''
-  $firewall_src = '0.0.0.0/0'
-  $firewall_dst = $::ipaddress
-  $puppi = false
-  $puppi_helper = 'standard'
-  $debug = false
-  $audit_only = false
+  $firewall       = false
+  $firewall_tool  = ''
+  $firewall_src   = '0.0.0.0/0'
+  $firewall_dst   = $::ipaddress
+  $puppi          = false
+  $puppi_helper   = 'standard'
+  $debug          = false
+  $audit_only     = false
 
 }
+# vim:shiftwidth=2:tabstop=2:softtabstop=2:expandtab:smartindent
+
