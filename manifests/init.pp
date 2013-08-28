@@ -296,7 +296,7 @@ class puppetdb (
   $https_port          = params_lookup( 'https_port' ),
   $http_host           = params_lookup( 'http_host' ),
   $http_port           = params_lookup( 'http_port' ),
-  $protocol            = params_lookup( 'protocol' ),
+  $protocol            = params_lookup( 'protocol' )
   ) inherits puppetdb::params {
 
   $bool_install_prerequisites = any2bool($install_prerequisites)
