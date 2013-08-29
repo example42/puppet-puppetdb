@@ -180,7 +180,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => true , :ipaddress => '10.42.42.42' } }
+    let(:facts) { { :monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
     let(:params) { { :https_port => '42' } }
 
     it 'should honour top scope global vars' do
@@ -190,7 +190,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :puppetdb_monitor => true , :ipaddress => '10.42.42.42' } }
+    let(:facts) { { :puppetdb_monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
     let(:params) { { :https_port => '42' } }
 
     it 'should honour module specific vars' do
@@ -200,7 +200,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => false , :puppetdb_monitor => true , :ipaddress => '10.42.42.42' } }
+    let(:facts) { { :monitor => false , :puppetdb_monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
     let(:params) { { :https_port => '42' } }
 
     it 'should honour top scope module specific over global vars' do
@@ -210,7 +210,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42' } }
+    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
     let(:params) { { :monitor => true , :firewall => true, :https_port => '42' } }
 
     it 'should honour passed params over global vars' do
