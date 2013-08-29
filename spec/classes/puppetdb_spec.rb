@@ -4,7 +4,7 @@ describe 'puppetdb' do
 
   let(:title) { 'puppetdb' }
   let(:node) { 'rspec.example42.com' }
-  let(:facts) { { :ipaddress => '10.42.42.42' }, { :puppetdbversion => 1.40 } }
+  let(:facts) { { :ipaddress => '10.42.42.42',  :puppetdbversion => 1.40 } }
 
   describe 'Test standard installation' do
     it { should contain_package('puppetdb').with_ensure('present') }
