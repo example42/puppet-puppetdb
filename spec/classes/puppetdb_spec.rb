@@ -11,7 +11,7 @@ describe 'puppetdb' do
     it { should contain_service('puppetdb').with_ensure('running') }
     it { should contain_service('puppetdb').with_enable('true') }
     it { should contain_file('puppetdb.conf').with_ensure('present') }
-    it { should contain_file('jetty.ini').with_ensure('present') }
+    it { should contain_file('/etc/puppetdb/conf.d/jetty.ini').with_ensure('present') }
   end
 
   describe 'Test installation of a specific version' do
