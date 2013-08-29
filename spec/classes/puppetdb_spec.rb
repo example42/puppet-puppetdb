@@ -4,13 +4,14 @@ describe 'puppetdb' do
 
   let(:title) { 'puppetdb' }
   let(:node) { 'rspec.example42.com' }
-  let(:facts) { { :ipaddress => '10.42.42.42' } }
+  let(:facts) { { :ipaddress => '10.42.42.42',  :puppetdbversion => 1.40 } }
 
   describe 'Test standard installation' do
     it { should contain_package('puppetdb').with_ensure('present') }
     it { should contain_service('puppetdb').with_ensure('running') }
     it { should contain_service('puppetdb').with_enable('true') }
     it { should contain_file('puppetdb.conf').with_ensure('present') }
+    it { should contain_file('/etc/puppetdb/conf.d/jetty.ini').with_ensure('present') }
   end
 
   describe 'Test installation of a specific version' do
@@ -19,7 +20,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test standard installation with monitoring and firewalling' do
-    let(:params) { {:monitor => true , :firewall => true, :port => '42', :protocol => 'tcp' } }
+    let(:params) { {:monitor => true , :firewall => true, :https_port => '42', :protocol => 'tcp' } }
 
     it { should contain_package('puppetdb').with_ensure('present') }
     it { should contain_service('puppetdb').with_ensure('running') }
@@ -36,7 +37,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test decommissioning - absent' do
-    let(:params) { {:absent => true, :monitor => true , :firewall => true, :port => '42', :protocol => 'tcp'} }
+    let(:params) { {:absent => true, :monitor => true , :firewall => true, :https_port => '42', :protocol => 'tcp'} }
 
     it 'should remove Package[puppetdb]' do should contain_package('puppetdb').with_ensure('absent') end 
     it 'should stop Service[puppetdb]' do should contain_service('puppetdb').with_ensure('stopped') end
@@ -53,7 +54,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test decommissioning - disable' do
-    let(:params) { {:disable => true, :monitor => true , :firewall => true, :port => '42', :protocol => 'tcp'} }
+    let(:params) { {:disable => true, :monitor => true , :firewall => true, :https_port => '42', :protocol => 'tcp'} }
 
     it { should contain_package('puppetdb').with_ensure('present') }
     it 'should stop Service[puppetdb]' do should contain_service('puppetdb').with_ensure('stopped') end
@@ -70,7 +71,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test decommissioning - disableboot' do
-    let(:params) { {:disableboot => true, :monitor => true , :firewall => true, :port => '42', :protocol => 'tcp'} }
+    let(:params) { {:disableboot => true, :monitor => true , :firewall => true, :https_port => '42', :protocol => 'tcp'} }
   
     it { should contain_package('puppetdb').with_ensure('present') }
     it { should_not contain_service('puppetdb').with_ensure('present') }
@@ -154,7 +155,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test Firewall Tools Integration' do
-    let(:params) { {:firewall => true, :firewall_tool => "iptables" , :protocol => "tcp" , :port => "42" } }
+    let(:params) { {:firewall => true, :firewall_tool => "iptables" , :protocol => "tcp" , :https_port => "42" } }
 
     it 'should generate correct firewall define' do
       content = catalogue.resource('firewall', 'puppetdb_tcp_42').send(:parameters)[:tool]
@@ -163,7 +164,7 @@ describe 'puppetdb' do
   end
 
   describe 'Test OldGen Module Set Integration' do
-    let(:params) { {:monitor => "yes" , :monitor_tool => "puppi" , :firewall => "yes" , :firewall_tool => "iptables" , :puppi => "yes" , :port => "42" , :protocol => 'tcp' } }
+    let(:params) { {:monitor => "yes" , :monitor_tool => "puppi" , :firewall => "yes" , :firewall_tool => "iptables" , :puppi => "yes" , :https_port => "42" , :protocol => 'tcp' } }
 
     it 'should generate monitor resources' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:tool]
@@ -180,8 +181,8 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => true , :ipaddress => '10.42.42.42' } }
-    let(:params) { { :port => '42' } }
+    let(:facts) { { :monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
+    let(:params) { { :https_port => '42' } }
 
     it 'should honour top scope global vars' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:enable]
@@ -190,8 +191,8 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :puppetdb_monitor => true , :ipaddress => '10.42.42.42' } }
-    let(:params) { { :port => '42' } }
+    let(:facts) { { :puppetdb_monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
+    let(:params) { { :https_port => '42' } }
 
     it 'should honour module specific vars' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:enable]
@@ -200,8 +201,8 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => false , :puppetdb_monitor => true , :ipaddress => '10.42.42.42' } }
-    let(:params) { { :port => '42' } }
+    let(:facts) { { :monitor => false , :puppetdb_monitor => true , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
+    let(:params) { { :https_port => '42' } }
 
     it 'should honour top scope module specific over global vars' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:enable]
@@ -210,8 +211,8 @@ describe 'puppetdb' do
   end
 
   describe 'Test params lookup' do
-    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42' } }
-    let(:params) { { :monitor => true , :firewall => true, :port => '42' } }
+    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42', :puppetdbversion => 1.40 } }
+    let(:params) { { :monitor => true , :firewall => true, :https_port => '42' } }
 
     it 'should honour passed params over global vars' do
       content = catalogue.resource('monitor::process', 'puppetdb_process').send(:parameters)[:enable]
@@ -219,5 +220,12 @@ describe 'puppetdb' do
     end
   end
 
+  describe 'Test standard installation with older puppetdb' do
+    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42', :puppetdbversion => 1.32 } }
+
+    it { should contain_package('puppetdb').with_ensure('present') }
+    it { should contain_service('puppetdb').with_ensure('running') }
+    it { should contain_service('puppetdb').with_enable('true') }
+  end
 end
 
