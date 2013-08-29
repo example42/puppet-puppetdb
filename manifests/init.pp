@@ -390,21 +390,22 @@ class puppetdb (
   # This runs while installing the package
   # but if something kills the keystore
   # we have to regenerate it. 
-  # TODO: Create the puppetdbversion fact and uncomment this bit
-  # if $::puppetdbversion <1.4 {
-  #   exec { '/usr/sbin/puppetdb-ssl-setup':
-  #   creates => '/etc/puppetdb/ssl/keystore.jks',
-  #   notify  => Service['puppetdb'],
-  #   require => Package['puppetdb'];
-  # }
-  # else {
+  if $::puppetdbversion <1.4 {
+    $ssl_setup_creates = '/etc/puppetdb/ssl/keystore.jks'
+  } else {
+    $ssl_setup_creates = '/etc/puppetdb/ssl/private.pem'
     file {'/etc/puppetdb/conf.d/jetty.ini':
       ensure  => $puppetdb::manage_file,
       content => template('puppetdb/jetty.ini.erb'),
       require => Package['puppetdb'],
       notify  => Service['puppetdb'],
     }
-  # }
+  }
+  exec { '/usr/sbin/puppetdb-ssl-setup':
+    creates => $ssl_setup_creates,
+    notify  => Service['puppetdb'],
+    require => Package['puppetdb'];
+  }
 
   service { 'puppetdb':
     ensure     => $puppetdb::manage_service_ensure,
