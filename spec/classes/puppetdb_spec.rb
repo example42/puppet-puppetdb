@@ -11,6 +11,7 @@ describe 'puppetdb' do
     it { should contain_service('puppetdb').with_ensure('running') }
     it { should contain_service('puppetdb').with_enable('true') }
     it { should contain_file('puppetdb.conf').with_ensure('present') }
+    it { should contain_file('jetty.ini').with_ensure('present') }
   end
 
   describe 'Test installation of a specific version' do
@@ -219,5 +220,12 @@ describe 'puppetdb' do
     end
   end
 
+  describe 'Test standard installation with older puppetdb' do
+    let(:facts) { { :monitor => false , :ipaddress => '10.42.42.42', :puppetdbversion => 1.32 } }
+
+    it { should contain_package('puppetdb').with_ensure('present') }
+    it { should contain_service('puppetdb').with_ensure('running') }
+    it { should contain_service('puppetdb').with_enable('true') }
+  end
 end
 
