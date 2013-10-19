@@ -387,10 +387,16 @@ class puppetdb (
     name   => $puppetdb::package,
   }
   
+  if defined($::puppetdbversion) {
+    $puppetdbversion = $::puppetdbversion
+  } else {
+    $puppetdbversion = 1.5
+  }
+  
   # This runs while installing the package
   # but if something kills the keystore
   # we have to regenerate it. 
-  if defined($::puppetdbversion) and $::puppetdbversion <1.4 {
+  if $puppetdbversion <1.4 {
     $ssl_setup_creates = '/etc/puppetdb/ssl/keystore.jks'
   } else {
     $ssl_setup_creates = '/etc/puppetdb/ssl/private.pem'
