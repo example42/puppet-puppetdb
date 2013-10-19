@@ -386,13 +386,13 @@ class puppetdb (
     ensure => $puppetdb::manage_package,
     name   => $puppetdb::package,
   }
-  
-  if defined($::puppetdbversion) {
+
+  if inline_template('<%= scope.lookupvar("::puppetdbversion")?1:0 %>') {
     $puppetdbversion = $::puppetdbversion
   } else {
     $puppetdbversion = 1.5
   }
-  
+
   # This runs while installing the package
   # but if something kills the keystore
   # we have to regenerate it. 
