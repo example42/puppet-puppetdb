@@ -20,7 +20,7 @@ class puppetdb::prerequisites {
     redhat,centos,scientific,oraclelinux : {
       require yum::repo::puppetlabs
     }
-    ubuntu,debian : { 
+    ubuntu,debian : {
       require apt::repo::puppetlabs
     }
     default: { }

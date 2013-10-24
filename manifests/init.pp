@@ -388,14 +388,14 @@ class puppetdb (
   }
 
   if inline_template('<%= scope.lookupvar("::puppetdbversion")?1:0 %>') {
-    $puppetdbversion = "${::puppetdbversion}"
+    $puppetdbversion = $::puppetdbversion
   } else {
     $puppetdbversion = '1.5'
   }
 
   # This runs while installing the package
   # but if something kills the keystore
-  # we have to regenerate it. 
+  # we have to regenerate it.
   if versioncmp($puppetdbversion, '1.4') == -1 {
     $ssl_setup_creates = '/etc/puppetdb/ssl/keystore.jks'
   } else {
