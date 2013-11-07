@@ -76,7 +76,8 @@ class puppetdb::params {
   }
 
   $pid_file = $::operatingsystem ? {
-    default => '/var/run/puppetdb.pid',
+    /(?i:RedHat|CentOS)/  => '/var/run/puppetdb/puppetdb',
+    default               => '/var/run/puppetdb.pid',
   }
 
   $data_dir = $::operatingsystem ? {
