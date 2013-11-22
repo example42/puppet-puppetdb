@@ -114,7 +114,7 @@ class puppetdb::params {
   ### General module variables that can have a site or per module default
   $monitor        = false
   $monitor_tool   = ''
-  $monitor_target = '127.0.0.1'
+  $monitor_target = $::ipaddress
   $firewall       = false
   $firewall_tool  = ''
   $firewall_src   = '0.0.0.0/0'
