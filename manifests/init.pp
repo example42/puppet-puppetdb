@@ -407,10 +407,12 @@ class puppetdb (
       notify  => Service['puppetdb'],
     }
   }
-  exec { '/usr/sbin/puppetdb-ssl-setup':
-    creates => $ssl_setup_creates,
-    notify  => Service['puppetdb'],
-    require => Package['puppetdb'];
+  if $puppetdb::bool_absent == false {
+    exec { '/usr/sbin/puppetdb-ssl-setup':
+      creates => $ssl_setup_creates,
+      notify  => Service['puppetdb'],
+      require => Package['puppetdb'];
+    }
   }
 
   service { 'puppetdb':
