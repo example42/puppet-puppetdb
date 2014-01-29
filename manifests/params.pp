@@ -15,6 +15,7 @@
 class puppetdb::params {
 
   ### Module specific parameters
+  $jetty_template = 'puppetdb/jetty.ini.erb'
   $db_type = 'hsqldb'
   $db_host = 'localhost'
   $db_port = '5432'
