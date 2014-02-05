@@ -8,7 +8,7 @@ Facter.add("puppetdbversion") do
     if File.exists?(versionfile) and (File.stat(versionfile).mtime.to_i + (12*60*60) >= Time.now().to_i)
       %x{cat #{versionfile}}.chomp.to_f
     else
-      output = %x{/usr/bin/java -jar /usr/share/puppetdb/puppetdb.jar version 2>/dev/null | /bin/grep '^version'}
+      output = %x{/usr/bin/java -jar /usr/share/puppetdb/puppetdb.jar version 2>/dev/null | grep '^version'}
       output.chomp!
       if output.length >0
         val = output.split('=')[-1]
