@@ -401,7 +401,7 @@ class puppetdb (
   # This runs while installing the package
   # but if something kills the keystore
   # we have to regenerate it.
-  if versioncmp("$puppetdbversion", '1.4') == -1 {
+  if versioncmp($puppetdbversion, '1.4') == -1 {
     $ssl_setup_creates = '/etc/puppetdb/ssl/keystore.jks'
   } else {
     $ssl_setup_creates = '/etc/puppetdb/ssl/private.pem'
