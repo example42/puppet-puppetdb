@@ -392,10 +392,10 @@ class puppetdb (
     name   => $puppetdb::package,
   }
 
-  if inline_template('<%= scope.lookupvar("::puppetdbversion")?1:0 %>') {
+  if $::puppetdbversion != '' {
     $puppetdbversion = $::puppetdbversion
   } else {
-    $puppetdbversion = '1.5'
+    $puppetdbversion = '2.0'
   }
 
   # This runs while installing the package
@@ -403,8 +403,10 @@ class puppetdb (
   # we have to regenerate it.
   if versioncmp($puppetdbversion, '1.4') == -1 {
     $ssl_setup_creates = '/etc/puppetdb/ssl/keystore.jks'
+    $ssl_setup_command = '/usr/sbin/puppetdb-ssl-setup'
   } else {
     $ssl_setup_creates = '/etc/puppetdb/ssl/private.pem'
+    $ssl_setup_command = '/usr/sbin/puppetdb ssl-setup'
     file {'/etc/puppetdb/conf.d/jetty.ini':
       ensure  => $puppetdb::manage_file,
       content => template($jetty_template),
@@ -413,7 +415,8 @@ class puppetdb (
     }
   }
   if $puppetdb::bool_absent == false {
-    exec { '/usr/sbin/puppetdb-ssl-setup':
+    exec { 'puppetdb.ssl.setup':
+      command => $ssl_setup_command,
       creates => $ssl_setup_creates,
       notify  => Service['puppetdb'],
       require => Package['puppetdb'];
