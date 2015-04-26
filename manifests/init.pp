@@ -424,12 +424,12 @@ class puppetdb (
   }
 
   service { 'puppetdb':
-    ensure     => $puppetdb::manage_service_ensure,
-    name       => $puppetdb::service,
-    enable     => $puppetdb::manage_service_enable,
-    hasstatus  => $puppetdb::service_status,
-    pattern    => $puppetdb::process,
-    require    => Package['puppetdb'],
+    ensure    => $puppetdb::manage_service_ensure,
+    name      => $puppetdb::service,
+    enable    => $puppetdb::manage_service_enable,
+    hasstatus => $puppetdb::service_status,
+    pattern   => $puppetdb::process,
+    require   => Package['puppetdb'],
   }
 
   file { 'puppetdb.conf':
