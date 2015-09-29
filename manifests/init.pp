@@ -447,7 +447,7 @@ class puppetdb (
   }
 
   # The whole puppetdb configuration directory can be recursively overriden
-  if $puppetdb::source_dir {
+  if $puppetdb::source_dir and $puppetdb::source_dir != '' {
     file { 'puppetdb.dir':
       ensure  => directory,
       path    => $puppetdb::config_dir,
@@ -463,7 +463,7 @@ class puppetdb (
 
 
   ### Include custom class if $my_class is set
-  if $puppetdb::my_class {
+  if $puppetdb::my_class and $puppetdb::my_class != '' {
     include $puppetdb::my_class
   }
 
