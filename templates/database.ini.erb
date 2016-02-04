@@ -15,3 +15,6 @@ password = <%= scope.lookupvar('puppetdb::db_password') %>
 
 # How often (in minutes) to compact the database
 # gc-interval = 60
+<%- [@options].flatten.each do |singleopt| -%>
+<%= singleopt %>
+<%- end -%>
